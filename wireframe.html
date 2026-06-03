@@ -1,0 +1,1350 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AHA BLS / ACLS — Blended Learning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red:       #C10E21;
+    --red-dark:  #9A0A1A;
+    --red-deep:  #7A0816;
+    --pink-bg:   #FBE9E9;
+    --pink-soft: #FDF4F4;
+    --ink:       #1c1c1c;
+    --body:      #4a4d52;
+    --mute:      #76797f;
+    --line:      #e3d8d8;
+    --line2:     #f1e4e4;
+    --paper:     #ffffff;
+    --navy:      #0F1B2D;
+    --navy-2:    #1a2638;
+    --navy-mute: #8b95a4;
+
+    --sans:    "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --sans-ar: "Noto Naskh Arabic", "Montserrat", sans-serif;
+
+    --radius:    14px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); }
+  body { font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; }
+
+  .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+  h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.01em; color: var(--ink); }
+  h1 { font-size: clamp(34px, 4.4vw, 52px); line-height: 1.08; font-weight: 700; }
+  h2 { font-size: clamp(26px, 3.2vw, 38px); line-height: 1.15; font-weight: 700; }
+  h3 { font-size: 20px; }
+  p  { margin: 0; color: var(--body); }
+
+  .eyebrow {
+    font-size: 12px; color: var(--red);
+    letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 16px; font-weight: 600;
+  }
+  .sub { color: var(--body); font-size: clamp(15px, 1.15vw, 17px); max-width: 60ch; line-height: 1.65; }
+
+  /* ---------- BUTTONS ---------- */
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 13px 26px; border-radius: 4px;
+    font-size: 14px; font-weight: 600;
+    border: 1px solid var(--red); color: var(--paper); background: var(--red);
+    cursor: pointer; transition: background .15s ease, color .15s ease, border-color .15s ease;
+    line-height: 1;
+  }
+  .btn:hover { background: var(--red-dark); border-color: var(--red-dark); }
+  .btn .arrow { display: inline-block; width: 14px; height: 1px; background: currentColor; position: relative; }
+  .btn .arrow::after { content:""; position:absolute; right:0; top:-3px; width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-top: 1.5px solid currentColor; transform: rotate(45deg); }
+  .btn.ghost { background: transparent; color: var(--paper); border-color: var(--paper); }
+  .btn.ghost:hover { background: var(--paper); color: var(--red); border-color: var(--paper); }
+  .btn.dark-ghost { background: transparent; color: var(--red); border-color: var(--red); }
+  .btn.dark-ghost:hover { background: var(--red); color: var(--paper); }
+  .btn.lg { padding: 16px 30px; font-size: 14px; }
+  .btn.white { background: var(--paper); color: var(--red); border-color: var(--paper); }
+  .btn.white:hover { background: var(--pink-bg); border-color: var(--pink-bg); }
+
+  /* ---------- IMAGE PLACEHOLDER ---------- */
+  .imgbox {
+    background:
+      linear-gradient(135deg, transparent 49.6%, rgba(255,255,255,.35) 49.6%, rgba(255,255,255,.35) 50.4%, transparent 50.4%),
+      linear-gradient(45deg,  transparent 49.6%, rgba(255,255,255,.35) 49.6%, rgba(255,255,255,.35) 50.4%, transparent 50.4%),
+      #b7b9bd;
+    border-radius: var(--radius);
+    position: relative;
+    min-height: 320px;
+    overflow: hidden;
+  }
+  .imgbox.dark {
+    background:
+      linear-gradient(135deg, transparent 49.6%, rgba(0,0,0,.15) 49.6%, rgba(0,0,0,.15) 50.4%, transparent 50.4%),
+      linear-gradient(45deg,  transparent 49.6%, rgba(0,0,0,.15) 49.6%, rgba(0,0,0,.15) 50.4%, transparent 50.4%),
+      #c8c9cc;
+  }
+  .imgbox .lbl {
+    position: absolute; left: 14px; bottom: 12px;
+    font-size: 11px; color: #555; font-weight: 500;
+    background: rgba(255,255,255,.92); padding: 4px 8px; border-radius: 4px;
+  }
+
+  /* ---------- SECTION BASE ---------- */
+  section { padding: 110px 0; }
+  section.pink { background: var(--pink-bg); }
+  section.pink-soft { background: var(--pink-soft); }
+  section.tight { padding: 72px 0; }
+
+  /* ============================================== */
+  /* ================== HEADER ==================== */
+  /* ============================================== */
+  .header {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--paper);
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 76px; }
+
+  .brand { display: inline-flex; align-items: center; }
+  .brand img { display: block; height: 44px; width: auto; }
+  .footer-brand .brand img { height: 56px; }
+
+  .nav-links { display: flex; align-items: center; gap: 36px; }
+  .nav-links a { font-size: 14px; color: var(--ink); font-weight: 500; }
+  .nav-links a:hover { color: var(--red); }
+
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .lang {
+    border: 1px solid var(--line); padding: 7px 12px; border-radius: 4px;
+    font-size: 12px; color: var(--ink); font-weight: 500;
+    display: inline-flex; gap: 6px; align-items: center; cursor: pointer; background: var(--paper);
+  }
+  .lang .sep { color: var(--line); }
+  .lang .opt { color: var(--mute); }
+  .lang .opt.active { color: var(--red); font-weight: 600; }
+
+  .menu-btn {
+    display: none; width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 4px;
+    background: var(--paper); cursor: pointer; padding: 0; align-items: center; justify-content: center;
+  }
+  .menu-btn span { width: 16px; height: 1.5px; background: var(--ink); position: relative; }
+  .menu-btn span::before, .menu-btn span::after { content:""; position:absolute; left:0; right:0; height: 1.5px; background: var(--ink); }
+  .menu-btn span::before { top: -5px; } .menu-btn span::after  { top: 5px; }
+
+  /* ============================================== */
+  /* ==================== HERO ==================== */
+  /* ============================================== */
+  .hero {
+    position: relative;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 96px 0 100px;
+    overflow: hidden;
+    isolation: isolate;
+    border-top: 3px solid var(--red);
+  }
+  .hero::before {
+    content:""; position:absolute; inset:0;
+    background:
+      radial-gradient(900px 600px at 100% 0%, rgba(193,14,33,0.05) 0%, transparent 60%),
+      radial-gradient(700px 500px at 0% 100%, rgba(193,14,33,0.03) 0%, transparent 55%);
+    z-index: -1;
+  }
+  .hero-deco {
+    position: absolute; right: -160px; top: 0; width: 680px; height: 680px;
+    z-index: -1; opacity: 0.18; pointer-events: none; color: var(--red);
+  }
+  .hero-deco svg { width: 100%; height: 100%; }
+
+  .hero-grid {
+    display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 64px; align-items: center;
+    position: relative;
+  }
+  .hero h1 { color: var(--ink); margin-bottom: 22px; }
+  .hero .eyebrow { color: var(--red); }
+  .hero p.sub { color: var(--body); margin-bottom: 32px; max-width: 52ch; }
+
+  .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .hero-meta {
+    display: flex; gap: 28px; margin-top: 44px; padding-top: 24px;
+    border-top: 1px solid var(--line); flex-wrap: wrap;
+  }
+  .hero-meta .item { display: flex; gap: 10px; font-size: 13.5px; color: var(--body); align-items: center; font-weight: 500; }
+  .hero-meta .ic {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--pink-bg); display: inline-flex; align-items: center; justify-content: center;
+    color: var(--red); flex-shrink: 0;
+  }
+  .hero-visual { aspect-ratio: 5 / 4.2; min-height: 0; }
+
+  /* ============================================== */
+  /* ============ WHY BLENDED (cards) ============= */
+  /* ============================================== */
+  .section-head { max-width: 760px; }
+  .section-head h2 span.accent { color: var(--red); }
+
+  .benefits-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; margin-top: 48px;
+  }
+  .benefit {
+    background: var(--paper); border-radius: var(--radius);
+    padding: 32px 28px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.03), 0 6px 22px -8px rgba(193,14,33,0.10);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .benefit:hover { transform: translateY(-2px); box-shadow: 0 1px 0 rgba(0,0,0,0.03), 0 14px 32px -10px rgba(193,14,33,0.18); }
+  .benefit .ic {
+    width: 44px; height: 44px; border-radius: 8px; background: var(--pink-bg);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 22px; color: var(--red); font-weight: 700;
+  }
+  .benefit h4 { font-size: 15px; font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .benefit p  { color: var(--mute); font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
+  .benefit .learn-more {
+    font-size: 12px; color: var(--red); font-weight: 600; display: inline-flex; gap: 8px; align-items: center;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+
+
+  /* ============================================== */
+  /* =========== WHAT YOU'LL LEARN ================ */
+  /* ============================================== */
+  .learn-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 64px; align-items: start; margin-top: 24px; }
+  .learn-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 28px; }
+  .learn-list li {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 16px 0; border-bottom: 1px solid var(--line2); font-size: 14.5px; color: var(--ink);
+  }
+  .learn-list li::before {
+    content: ""; flex-shrink: 0; margin-top: 7px;
+    width: 8px; height: 8px; background: var(--red); border-radius: 50%;
+  }
+
+  /* ============================================== */
+  /* ============ HOW IT WORKS (tabs) ============= */
+  /* ============================================== */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 56px; position: relative; }
+  .steps::before {
+    content:""; position:absolute; left: 10%; right: 10%; top: 32px; height: 2px;
+    background: repeating-linear-gradient(90deg, var(--red) 0 8px, transparent 8px 16px);
+    z-index: 0; opacity: 0.4;
+  }
+  .step { background: transparent; padding: 0 12px; position: relative; z-index: 1; }
+  .step .n {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--red); color: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 700; margin-bottom: 22px;
+    box-shadow: 0 12px 24px -8px rgba(193,14,33,0.45);
+  }
+  .step h4 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  .step p  { color: var(--mute); font-size: 14px; line-height: 1.6; max-width: 32ch; }
+
+  /* ============================================== */
+  /* ============== WHO IT'S FOR ================== */
+  /* ============================================== */
+  .audience-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+  .audience-card {
+    background: var(--paper); border-radius: var(--radius); padding: 32px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.03), 0 6px 22px -8px rgba(193,14,33,0.10);
+  }
+  .audience-card .ic {
+    width: 44px; height: 44px; border-radius: 8px; background: var(--pink-bg);
+    margin-bottom: 22px; color: var(--red); display: flex; align-items: center; justify-content: center; font-weight: 700;
+  }
+  .audience-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .audience-card p  { color: var(--mute); font-size: 14px; line-height: 1.6; }
+
+  /* ============================================== */
+  /* ============== TRUST STRIP =================== */
+  /* ============================================== */
+  .trust-section { background: var(--pink-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .trust-strip {
+    display: flex; align-items: center; justify-content: center; gap: 32px;
+    flex-wrap: wrap; text-align: center;
+  }
+  .trust-logo { height: 56px; width: auto; flex-shrink: 0; }
+  .trust-divider { width: 1px; height: 44px; background: var(--line); }
+  .trust-line { font-size: 14.5px; color: var(--body); line-height: 1.55; max-width: 58ch; margin: 0; }
+  .trust-line strong { color: var(--ink); font-weight: 600; }
+
+  /* ============================================== */
+  /* =============== CTA REPEAT =================== */
+  /* ============================================== */
+  .cta-band {
+    background: var(--pink-soft);
+    padding: 80px 0;
+    position: relative;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .cta-grid {
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    gap: 8px; max-width: 720px; margin: 0 auto;
+  }
+  .cta-band h2 { color: var(--ink); margin-bottom: 14px; max-width: 24ch; line-height: 1.2; }
+  .cta-band p { color: var(--body); margin-bottom: 28px; max-width: 52ch; }
+
+  /* ============================================== */
+  /* ===================== FAQ ==================== */
+  /* ============================================== */
+  .faq { max-width: 820px; margin: 48px auto 0; }
+  .faq-item { border-bottom: 1px solid var(--line); background: var(--paper); border-radius: 4px; }
+  .faq-q {
+    width: 100%; background: transparent; border: 0;
+    padding: 22px 4px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    font-size: 15px; font-weight: 600; text-align: left; cursor: pointer; color: var(--ink);
+    font-family: inherit;
+  }
+  .faq-q .plus {
+    width: 28px; height: 28px; border-radius: 50%; background: var(--pink-bg);
+    color: var(--red); display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative;
+    transition: background .2s ease, color .2s ease;
+  }
+  .faq-q .plus::before, .faq-q .plus::after { content:""; position: absolute; background: var(--red); border-radius: 2px; transition: transform .2s ease, background .2s ease; }
+  .faq-q .plus::before { width: 12px; height: 2px; }
+  .faq-q .plus::after  { width: 2px; height: 12px; }
+  .faq-item.open .faq-q .plus { background: var(--red); }
+  .faq-item.open .faq-q .plus::before, .faq-item.open .faq-q .plus::after { background: var(--paper); }
+  .faq-item.open .faq-q .plus::after { transform: scaleY(0); }
+  .faq-a {
+    max-height: 0; overflow: hidden; transition: max-height .25s ease, padding .25s ease;
+    color: var(--body); font-size: 14.5px; line-height: 1.7; padding: 0 4px;
+  }
+  .faq-item.open .faq-a { max-height: 260px; padding: 0 4px 22px; }
+
+  /* ============================================== */
+  /* ================ ITC LIST ==================== */
+  /* ============================================== */
+  .itc-toolbar { display: flex; gap: 12px; margin-top: 40px; align-items: center; flex-wrap: wrap; }
+  .itc-search {
+    flex: 1; min-width: 260px;
+    border: 1px solid var(--line); border-radius: 6px; padding: 14px 18px;
+    font-size: 13.5px; color: var(--mute);
+    background: var(--paper); display: flex; align-items: center; gap: 12px;
+  }
+  .itc-search .icon { color: var(--red); width: 18px; height: 18px; }
+
+  /* ---------- LINEAR ICON SYSTEM ---------- */
+  .icon {
+    width: 22px; height: 22px;
+    display: inline-block; vertical-align: middle; flex-shrink: 0;
+  }
+  .brand-mark .icon { width: 20px; height: 20px; color: #fff; }
+  .hero-meta .ic .icon { width: 14px; height: 14px; color: var(--red); }
+  .benefit .ic .icon { width: 22px; height: 22px; color: var(--red); }
+  .audience-card .ic .icon { width: 22px; height: 22px; color: var(--red); }
+  .socials .s .icon { width: 14px; height: 14px; color: #cfd6e2; }
+  .socials .s:hover .icon { color: #fff; }
+  .itc-list .row .ext .icon { width: 16px; height: 16px; color: var(--red); }
+  .footer-cta .btn .icon-arrow { width: 14px; height: 14px; color: var(--red); }
+  .learn-more .icon-arrow { width: 14px; height: 14px; color: var(--red); }
+  .itc-filter {
+    border: 1px solid var(--line); border-radius: 6px; padding: 12px 16px;
+    font-size: 12.5px; color: var(--ink); font-weight: 500;
+    background: var(--paper); display: flex; align-items: center; gap: 12px; cursor: pointer;
+  }
+  .itc-filter .caret { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid var(--red); }
+
+  .alpha-jump {
+    display: flex; gap: 4px; margin-top: 28px; flex-wrap: wrap;
+    padding-bottom: 16px; border-bottom: 1px solid var(--line);
+  }
+  .alpha-jump span {
+    font-size: 12px; font-weight: 600; color: var(--mute);
+    padding: 6px 10px; border-radius: 4px; min-width: 30px; text-align: center; cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+  }
+  .alpha-jump span.active { background: var(--red); color: var(--paper); }
+  .alpha-jump span:not(.active):hover { color: var(--red); background: var(--pink-soft); }
+
+  .itc-group { margin-top: 40px; }
+  .itc-group h4 {
+    margin: 0 0 16px; font-size: 16px; color: var(--red); font-weight: 700;
+    padding-bottom: 8px; border-bottom: 2px solid var(--red); display: inline-block;
+  }
+  .itc-list { columns: 2; column-gap: 56px; }
+  .itc-list .row {
+    padding: 16px 2px; border-bottom: 1px solid var(--line2);
+    display: grid; grid-template-columns: 1fr auto 18px;
+    column-gap: 20px; align-items: center;
+    font-size: 14px; break-inside: avoid;
+  }
+  .itc-list .row > :first-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; font-weight: 500; color: var(--ink); }
+  .itc-list .row .city { color: var(--mute); font-size: 12px; text-align: right; white-space: nowrap; }
+  .itc-list .row .ext  { font-size: 14px; color: var(--red); font-weight: 700; }
+
+  .more { text-align: center; margin-top: 40px; font-size: 13px; color: var(--mute); }
+
+  /* ============================================== */
+  /* ================== FOOTER ==================== */
+  /* ============================================== */
+  footer.site {
+    background: var(--navy); color: #cfd6e2;
+    padding: 72px 0 28px;
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 1.1fr 1fr 1fr 1.05fr; gap: 56px;
+  }
+  .footer-brand .brand-name { color: var(--paper); }
+  .footer-brand .brand-name span { color: var(--navy-mute); }
+  .footer-brand p { font-size: 13px; color: var(--navy-mute); margin-top: 18px; line-height: 1.65; max-width: 34ch; }
+
+  .footer-col h5 {
+    margin: 0 0 18px; font-size: 12px; color: var(--navy-mute); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600;
+  }
+  .footer-col ul { list-style: none; padding: 0; margin: 0; }
+  .footer-col li { font-size: 14px; padding: 6px 0; color: #e5e8ee; font-weight: 500; }
+  .footer-col li a:hover { color: var(--red); }
+
+  .regions-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 6px;
+  }
+  .region h6 { margin: 0 0 10px; font-size: 12px; color: var(--red); font-weight: 700; letter-spacing: 0.08em; }
+  .region ul li { font-size: 13px; padding: 3px 0; color: #cfd6e2; }
+
+  .footer-cta {
+    background: var(--red); border-radius: var(--radius); padding: 24px;
+    color: var(--paper);
+  }
+  .footer-cta p { color: var(--paper); font-size: 13.5px; line-height: 1.55; margin-bottom: 18px; max-width: 36ch; }
+  .footer-cta .btn { background: var(--paper); color: var(--red); border-color: var(--paper); padding: 11px 18px; font-size: 12.5px; }
+  .footer-cta .btn:hover { background: var(--pink-bg); border-color: var(--pink-bg); }
+
+  .footer-bottom {
+    margin-top: 56px; padding-top: 22px; border-top: 1px solid #243046;
+    display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap;
+  }
+  .footer-bottom .legal { font-size: 12px; color: var(--navy-mute); display: flex; gap: 24px; flex-wrap: wrap; }
+  .footer-bottom .legal a:hover { color: var(--red); }
+  .footer-bottom .socials { display: flex; gap: 10px; }
+  .footer-bottom .socials .s {
+    width: 32px; height: 32px; border-radius: 50%; background: #243046;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; color: #cfd6e2; cursor: pointer;
+  }
+  .footer-bottom .socials .s:hover { background: var(--red); color: var(--paper); }
+  .copyright { text-align: center; margin-top: 18px; font-size: 12px; color: var(--navy-mute); }
+
+  /* ============================================== */
+  /* ================ RESPONSIVE ================== */
+  /* ============================================== */
+  @media (max-width: 1024px) {
+    .container { padding: 0 28px; }
+    section { padding: 80px 0; }
+
+    .hero { padding: 70px 0 80px; }
+    .hero-grid, .learn-grid { grid-template-columns: 1fr; gap: 44px; }
+    .hero-deco { right: -250px; top: -100px; opacity: 0.22; width: 600px; height: 600px; }
+
+    .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+    .audience-grid { grid-template-columns: 1fr; }
+
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .footer-cta { grid-column: 1 / -1; }
+  }
+
+  @media (max-width: 720px) {
+    .container { padding: 0 20px; }
+    section { padding: 64px 0; }
+    .hero { padding: 56px 0 64px; }
+
+    .nav-links { display: none; }
+    .menu-btn { display: inline-flex; }
+    .nav-right .btn { display: none; }
+
+    h1 { font-size: 32px; }
+    h2 { font-size: 24px; }
+
+    .benefits-grid { grid-template-columns: 1fr; }
+    .learn-list { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; gap: 32px; }
+    .steps::before { display: none; }
+    .step { padding: 0; }
+
+    .trust-strip { gap: 18px; }
+    .trust-divider { display: none; }
+
+    .hero-cta { flex-direction: column; align-items: stretch; }
+    .hero-cta .btn { width: 100%; justify-content: center; }
+    .hero-meta { gap: 12px 22px; }
+    .hero-visual { min-height: 240px; }
+    .hero-deco { display: none; }
+
+    .itc-list { columns: 1; column-gap: 0; }
+    .itc-toolbar { flex-direction: column; align-items: stretch; }
+    .itc-filter { justify-content: space-between; }
+    .itc-list .row { grid-template-columns: 1fr auto 18px; column-gap: 14px; }
+
+    .cta-band { padding: 64px 0; }
+    .cta-band .btn { width: 100%; justify-content: center; }
+
+    .footer-top { grid-template-columns: 1fr; gap: 32px; }
+    .regions-grid { grid-template-columns: 1fr 1fr; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+  }
+
+  /* ============================================== */
+  /* =============== RTL (toggle) ================= */
+  /* ============================================== */
+  [dir="rtl"] body          { font-family: var(--sans-ar); }
+  [dir="rtl"] .btn .arrow::after { transform: rotate(-135deg); right: auto; left: 0; }
+  [dir="rtl"] .alpha-jump   { direction: ltr; }
+  [dir="rtl"] .itc-list,
+  [dir="rtl"] .itc-search,
+  [dir="rtl"] .itc-filter   { direction: rtl; }
+  [dir="rtl"] .lang         { direction: ltr; }
+  [dir="rtl"] .benefit .learn-more .icon-arrow { transform: scaleX(-1); }
+  [dir="ltr"] .rtl-only { display: none !important; }
+  [dir="rtl"] .ltr-only { display: none !important; }
+
+  /* ============================================== */
+  /* =============== LEAD MODAL =================== */
+  /* ============================================== */
+  [hidden] { display: none !important; }
+
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(15, 27, 45, 0.55);
+    -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    opacity: 0; visibility: hidden;
+    transition: opacity .2s ease, visibility .2s ease;
+  }
+  .modal-overlay.open { opacity: 1; visibility: visible; }
+
+  .modal {
+    background: var(--paper);
+    border-radius: var(--radius);
+    border-top: 3px solid var(--red);
+    width: 100%; max-width: 440px;
+    padding: 38px 36px 34px;
+    position: relative;
+    box-shadow: 0 30px 70px -20px rgba(15, 27, 45, 0.5);
+    transform: translateY(12px) scale(0.98);
+    transition: transform .2s ease;
+    max-height: calc(100vh - 48px); overflow-y: auto;
+  }
+  .modal-overlay.open .modal { transform: none; }
+
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 1px solid var(--line); background: var(--paper);
+    color: var(--mute); cursor: pointer; padding: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .modal-close:hover { background: var(--pink-bg); color: var(--red); border-color: var(--pink-bg); }
+  .modal-close .icon { width: 16px; height: 16px; }
+
+  .modal .eyebrow { margin-bottom: 8px; }
+  .modal h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .modal .modal-intro { color: var(--body); font-size: 14px; line-height: 1.6; margin-bottom: 24px; }
+
+  .field { margin-bottom: 18px; }
+  .field label {
+    display: block; font-size: 12.5px; font-weight: 600; color: var(--ink);
+    margin-bottom: 7px;
+  }
+  .field input, .field select {
+    width: 100%; font-family: inherit; font-size: 14px; color: var(--ink);
+    border: 1px solid var(--line); border-radius: 6px;
+    padding: 13px 15px; background: var(--paper);
+    transition: border-color .15s ease, box-shadow .15s ease;
+    -webkit-appearance: none; appearance: none;
+  }
+  .field select {
+    padding-right: 40px; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23C10E21' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round' d='M1 1.5 6 6.5 11 1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center;
+  }
+  .field input:focus, .field select:focus {
+    outline: none; border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(193, 14, 33, 0.12);
+  }
+  .field input::placeholder { color: var(--mute); }
+  .field input.invalid, .field select.invalid {
+    border-color: var(--red); box-shadow: 0 0 0 3px rgba(193, 14, 33, 0.10);
+  }
+
+  .modal form .btn { width: 100%; justify-content: center; margin-top: 6px; }
+
+  .modal-thanks { text-align: center; padding: 8px 4px 4px; }
+  .modal-thanks .ty-ic {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--pink-bg); color: var(--red);
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-bottom: 22px;
+  }
+  .modal-thanks .ty-ic .icon { width: 30px; height: 30px; }
+  .modal-thanks h3 { font-size: 22px; margin-bottom: 10px; }
+  .modal-thanks p {
+    color: var(--body); font-size: 14.5px; line-height: 1.65;
+    margin: 0 auto 26px; max-width: 34ch;
+  }
+  .modal-thanks .btn { width: 100%; justify-content: center; }
+
+  /* RTL tweaks for modal */
+  [dir="rtl"] .modal-close { right: auto; left: 16px; }
+  [dir="rtl"] .field select { background-position: left 14px center; padding-right: 15px; padding-left: 40px; }
+
+  @media (max-width: 720px) {
+    .modal { padding: 32px 24px 28px; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ===== LINEAR ICON LIBRARY (referenced via <use>) ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-heart" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+    </symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.75"/>
+      <polyline points="12 7 12 12 15 14" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-shield-check" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
+            d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/>
+      <polyline points="9 12 11 14 15 10" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-star" viewBox="0 0 24 24">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+               fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-monitor" viewBox="0 0 24 24">
+      <rect x="3" y="4" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.75"/>
+      <polygon points="10 8 16 10.5 10 13" fill="currentColor"/>
+      <line x1="8" y1="21" x2="16" y2="21" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+      <line x1="12" y1="17" x2="12" y2="21" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-hand" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
+            d="M9 11V4.5a1.5 1.5 0 1 1 3 0V11M12 11V3.5a1.5 1.5 0 0 1 3 0V11M15 11V4.5a1.5 1.5 0 1 1 3 0V12M9 11V6.5a1.5 1.5 0 0 0-3 0v9a6 6 0 0 0 6 6h2a6 6 0 0 0 6-6v-3"/>
+    </symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.75"/>
+      <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="1.75"/>
+      <path fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+            d="M12 3a14 14 0 0 1 4 9 14 14 0 0 1-4 9 14 14 0 0 1-4-9 14 14 0 0 1 4-9z"/>
+    </symbol>
+    <symbol id="i-card" viewBox="0 0 24 24">
+      <rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.75"/>
+      <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="1.75"/>
+      <line x1="7" y1="14.5" x2="11" y2="14.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+      <line x1="7" y1="17" x2="9" y2="17" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-stetho" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
+            d="M5 3v6a4 4 0 0 0 8 0V3M5 3h2M11 3h2M9 13v3a5 5 0 0 0 10 0v-1"/>
+      <circle cx="19" cy="13" r="2" fill="none" stroke="currentColor" stroke-width="1.75"/>
+    </symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
+            d="M2 9l10-5 10 5-10 5L2 9z"/>
+      <path fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
+            d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/>
+      <line x1="22" y1="9" x2="22" y2="15" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
+            d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    </symbol>
+    <symbol id="i-search" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.75"/>
+      <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-arrow-up-right" viewBox="0 0 24 24">
+      <line x1="7" y1="17" x2="17" y2="7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <polyline points="9 7 17 7 17 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24">
+      <line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <polyline points="14 6 20 12 14 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-fb" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+            d="M16 3h-2a4 4 0 0 0-4 4v3H7v4h3v7h4v-7h3l1-4h-4V8a1 1 0 0 1 1-1h3z"/>
+    </symbol>
+    <symbol id="i-x" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M4 4l16 16M20 4L4 20"/>
+    </symbol>
+    <symbol id="i-li" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+            d="M16 8.5a4.5 4.5 0 0 1 4.5 4.5V20H17v-7a1.5 1.5 0 0 0-3 0v7h-3.5V9H14v1.5a3.5 3.5 0 0 1 2-2z"/>
+      <rect x="3" y="9" width="3.5" height="11" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="4.75" cy="5" r="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    </symbol>
+    <symbol id="i-yt" viewBox="0 0 24 24">
+      <rect x="2" y="6" width="20" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <polygon points="10 9 16 12 10 15" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24">
+      <rect x="2" y="5" width="20" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <polyline points="22 7 12 13 2 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============= HEADER ============= -->
+<header class="header">
+  <div class="container nav">
+    <a href="#" class="brand">
+      <img src="Group 36.png" alt="American Heart Association" class="logo-light" />
+    </a>
+
+    <nav class="nav-links ltr-only">
+      <a href="#">What We Do</a>
+      <a href="#">Courses</a>
+      <a href="#">Training Centres</a>
+      <a href="#">About Us</a>
+    </nav>
+    <nav class="nav-links rtl-only">
+      <a href="#">ما نقوم به</a>
+      <a href="#">الدورات</a>
+      <a href="#">مراكز التدريب</a>
+      <a href="#">من نحن</a>
+    </nav>
+
+    <div class="nav-right">
+      <button class="lang" id="langToggle" aria-label="Switch language">
+        <span class="opt active" data-en>EN</span>
+        <span class="sep">/</span>
+        <span class="opt" data-ar>ع</span>
+      </button>
+      <button class="btn lg ltr-only">Buy on ShopCPR</button>
+      <button class="btn lg rtl-only">اشترِ من ShopCPR</button>
+      <button class="menu-btn" aria-label="Open menu"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ============= HERO ============= -->
+<section class="hero">
+  <div class="hero-deco" aria-hidden="true">
+    <svg viewBox="0 0 720 720" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.85">
+        <path d="M 360 120 C 240 120, 160 200, 160 320 C 160 460, 360 600, 360 600 C 360 600, 560 460, 560 320 C 560 200, 480 120, 360 120 Z" />
+        <path d="M 360 160 C 260 160, 200 230, 200 330 C 200 450, 360 560, 360 560 C 360 560, 520 450, 520 330 C 520 230, 460 160, 360 160 Z" opacity="0.6" />
+        <path d="M 360 200 C 280 200, 240 260, 240 340 C 240 440, 360 520, 360 520 C 360 520, 480 440, 480 340 C 480 260, 440 200, 360 200 Z" opacity="0.4" />
+      </g>
+    </svg>
+  </div>
+
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow ltr-only">American Heart Association · Course</div>
+        <div class="eyebrow rtl-only">جمعية القلب الأمريكية · دورة</div>
+
+        <h1 class="ltr-only">Basic Life Support<br/>Blended Learning.</h1>
+        <h1 class="rtl-only">دعم الحياة الأساسي<br/>التعلم المدمج.</h1>
+
+        <p class="sub ltr-only">
+          The official AHA BLS course — flexible online theory plus a hands-on skills session
+          with a certified instructor. Credential valid for 2 years, recognised worldwide.
+        </p>
+        <p class="sub rtl-only">
+          الدورة الرسمية من AHA — تعلم نظري عبر الإنترنت بمرونة، يليه تدريب عملي مع مدرب معتمد.
+          الشهادة صالحة لمدة سنتين ومعترف بها عالميًا.
+        </p>
+
+        <div class="hero-cta">
+          <button class="btn lg ltr-only">Buy on ShopCPR <span class="arrow"></span></button>
+          <button class="btn dark-ghost lg ltr-only js-open-modal">Find a Training Centre</button>
+          <button class="btn lg rtl-only">اشترِ من ShopCPR <span class="arrow"></span></button>
+          <button class="btn dark-ghost lg rtl-only js-open-modal">ابحث عن مركز تدريب</button>
+        </div>
+
+        <div class="hero-meta">
+          <div class="item ltr-only"><span class="ic"><svg class="icon"><use href="#i-heart"/></svg></span> 2-year certification</div>
+          <div class="item ltr-only"><span class="ic"><svg class="icon"><use href="#i-clock"/></svg></span> ~3 hr online + in-person skills</div>
+          <div class="item ltr-only"><span class="ic"><svg class="icon"><use href="#i-shield-check"/></svg></span> AHA-issued eCard</div>
+          <div class="item rtl-only"><span class="ic"><svg class="icon"><use href="#i-heart"/></svg></span> شهادة لمدة سنتين</div>
+          <div class="item rtl-only"><span class="ic"><svg class="icon"><use href="#i-clock"/></svg></span> ٣ ساعات عبر الإنترنت + جلسة عملية</div>
+          <div class="item rtl-only"><span class="ic"><svg class="icon"><use href="#i-shield-check"/></svg></span> بطاقة AHA الإلكترونية</div>
+        </div>
+      </div>
+
+      <div class="imgbox hero-visual">
+        <span class="lbl">Hero visual · clinician / on-the-job CPR moment</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= WHY BLENDED ============= -->
+<section class="pink">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow ltr-only">Why blended learning</div>
+      <div class="eyebrow rtl-only">لماذا التعلم المدمج</div>
+      <h2 class="ltr-only">Flexible <span class="accent">online theory.</span><br/>Hands-on practice that builds real competence.</h2>
+      <h2 class="rtl-only"><span class="accent">نظرية مرنة</span> عبر الإنترنت.<br/>تدريب عملي يبني كفاءة حقيقية.</h2>
+    </div>
+
+    <div class="benefits-grid">
+      <div class="benefit ltr-only">
+        <div class="ic"><svg class="icon"><use href="#i-monitor"/></svg></div>
+        <h4>Self-Paced Online</h4>
+        <p>Complete the theory wherever you are, in your own time — pause, resume, review.</p>
+      </div>
+      <div class="benefit ltr-only">
+        <div class="ic"><svg class="icon"><use href="#i-hand"/></svg></div>
+        <h4>Hands-On Skills</h4>
+        <p>Practise compressions, airway, and AED use with a certified AHA instructor.</p>
+      </div>
+      <div class="benefit ltr-only">
+        <div class="ic"><svg class="icon"><use href="#i-globe"/></svg></div>
+        <h4>Globally Recognised</h4>
+        <p>AHA credentials accepted by hospitals and employers worldwide.</p>
+      </div>
+      <div class="benefit ltr-only">
+        <div class="ic"><svg class="icon"><use href="#i-shield-check"/></svg></div>
+        <h4>Valid for 2 Years</h4>
+        <p>AHA-issued eCard, two years of competency, with a clear renewal pathway.</p>
+      </div>
+
+      <div class="benefit rtl-only"><div class="ic"><svg class="icon"><use href="#i-monitor"/></svg></div><h4>ذاتية التوقيت</h4><p>أكمل النظرية في وقتك الخاص — أوقف، استأنف، راجع.</p></div>
+      <div class="benefit rtl-only"><div class="ic"><svg class="icon"><use href="#i-hand"/></svg></div><h4>تدريب عملي</h4><p>تدرّب على الضغطات ومجرى الهواء وجهاز AED مع مدرب معتمد.</p></div>
+      <div class="benefit rtl-only"><div class="ic"><svg class="icon"><use href="#i-globe"/></svg></div><h4>معترف بها عالميًا</h4><p>مقبولة في المستشفيات حول العالم.</p></div>
+      <div class="benefit rtl-only"><div class="ic"><svg class="icon"><use href="#i-shield-check"/></svg></div><h4>صالحة لسنتين</h4><p>بطاقة AHA إلكترونية، سنتان من الكفاءة، ومسار تجديد واضح.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= WHAT YOU'LL LEARN ============= -->
+<section>
+  <div class="container">
+    <div class="learn-grid">
+      <div>
+        <div class="eyebrow ltr-only">What you'll learn</div>
+        <div class="eyebrow rtl-only">ما سوف تتعلمه</div>
+        <h2 class="ltr-only">The <span class="accent">skills</span> that make the difference in the first minutes.</h2>
+        <h2 class="rtl-only">المهارات التي تصنع الفارق في الدقائق الأولى.</h2>
+        <p class="sub ltr-only" style="margin-top:18px">
+          Modules align to the latest AHA guidelines. Same scannable structure across BLS and ACLS variants of this template.
+        </p>
+        <p class="sub rtl-only" style="margin-top:18px">
+          الوحدات تتوافق مع أحدث إرشادات AHA. نفس البنية لدورتي BLS و ACLS.
+        </p>
+        <button class="btn dark-ghost ltr-only" style="margin-top:28px">View Full Curriculum <span class="arrow"></span></button>
+        <button class="btn dark-ghost rtl-only" style="margin-top:28px">عرض المنهج الكامل <span class="arrow"></span></button>
+      </div>
+
+      <ul class="learn-list ltr-only">
+        <li>High-quality CPR for adults, children, and infants</li>
+        <li>Chain of survival</li>
+        <li>AED use</li>
+        <li>Effective ventilation with a barrier device</li>
+        <li>Choking relief</li>
+        <li>Team dynamics in multi-rescuer scenarios</li>
+        <li>Recognition of cardiac arrest</li>
+        <li>Recovery position &amp; handover</li>
+      </ul>
+      <ul class="learn-list rtl-only">
+        <li>إنعاش قلبي رئوي عالي الجودة للبالغين والأطفال والرضع</li>
+        <li>سلسلة النجاة</li>
+        <li>استخدام جهاز AED</li>
+        <li>التهوية الفعّالة باستخدام واقٍ</li>
+        <li>إسعاف الاختناق</li>
+        <li>ديناميكية الفريق</li>
+        <li>التعرف على السكتة القلبية</li>
+        <li>وضعية الإفاقة والتسليم</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============= HOW IT WORKS ============= -->
+<section class="pink-soft">
+  <div class="container">
+    <div class="section-head" style="text-align:center;margin:0 auto">
+      <div class="eyebrow ltr-only">How it works</div>
+      <div class="eyebrow rtl-only">كيف تعمل الدورة</div>
+      <h2 class="ltr-only"><span class="accent">Three steps</span> to certification.</h2>
+      <h2 class="rtl-only"><span class="accent">ثلاث خطوات</span> للحصول على الشهادة.</h2>
+    </div>
+
+    <div class="steps">
+      <div class="step ltr-only"><div class="n">1</div><h4>Complete the online module</h4><p>Self-paced theory and assessment. Around 3 hours total.</p></div>
+      <div class="step ltr-only"><div class="n">2</div><h4>Attend a hands-on session</h4><p>Skills practice and check-off with an AHA-certified instructor at a local ITC.</p></div>
+      <div class="step ltr-only"><div class="n">3</div><h4>Receive your eCard</h4><p>AHA-issued certification, valid for two years and verifiable online.</p></div>
+
+      <div class="step rtl-only"><div class="n">١</div><h4>أكمل الوحدة عبر الإنترنت</h4><p>حوالي ٣ ساعات ذاتية التوقيت.</p></div>
+      <div class="step rtl-only"><div class="n">٢</div><h4>احضر جلسة عملية</h4><p>تدريب وتقييم مع مدرب معتمد.</p></div>
+      <div class="step rtl-only"><div class="n">٣</div><h4>استلم البطاقة الإلكترونية</h4><p>شهادة AHA صالحة لسنتين.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= WHO IT'S FOR ============= -->
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow ltr-only">Who it's for</div>
+      <div class="eyebrow rtl-only">لمن هذه الدورة</div>
+      <h2 class="ltr-only">Built for the people most likely to be <span class="accent">first on scene.</span></h2>
+      <h2 class="rtl-only">مصممة لأول من يصل إلى مكان الحدث.</h2>
+    </div>
+
+    <div class="audience-grid">
+      <div class="audience-card ltr-only">
+        <div class="ic"><svg class="icon"><use href="#i-stetho"/></svg></div>
+        <h4>Healthcare Providers</h4>
+        <p>Nurses, paramedics, EMTs and clinicians requiring current BLS / ACLS credentials.</p>
+      </div>
+      <div class="audience-card ltr-only">
+        <div class="ic"><svg class="icon"><use href="#i-cap"/></svg></div>
+        <h4>Students &amp; Trainees</h4>
+        <p>Medical, dental, nursing and allied health students preparing for clinical placement.</p>
+      </div>
+      <div class="audience-card ltr-only">
+        <div class="ic"><svg class="icon"><use href="#i-shield"/></svg></div>
+        <h4>Safety &amp; Allied Health</h4>
+        <p>Dentists, pharmacists, lifeguards, workplace responders and safety officers.</p>
+      </div>
+
+      <div class="audience-card rtl-only"><div class="ic"><svg class="icon"><use href="#i-stetho"/></svg></div><h4>مقدمو الرعاية الصحية</h4><p>الممرضون، المسعفون، الفنيون والأطباء.</p></div>
+      <div class="audience-card rtl-only"><div class="ic"><svg class="icon"><use href="#i-cap"/></svg></div><h4>الطلاب والمتدربون</h4><p>طلاب الطب وطب الأسنان والتمريض.</p></div>
+      <div class="audience-card rtl-only"><div class="ic"><svg class="icon"><use href="#i-shield"/></svg></div><h4>الصحة المساعدة والسلامة</h4><p>أطباء الأسنان، الصيادلة، المنقذون، فرق السلامة.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= TRUST STRIP ============= -->
+<section class="tight trust-section">
+  <div class="container">
+    <div class="trust-strip">
+      <img src="Group 36.png" alt="American Heart Association" class="trust-logo" />
+      <div class="trust-divider"></div>
+      <p class="trust-line ltr-only">
+        Issued by the American Heart Association · Aligned with the latest <strong>AHA Guidelines for CPR &amp; ECC</strong>.
+      </p>
+      <p class="trust-line rtl-only">
+        صادر عن جمعية القلب الأمريكية · يتوافق مع أحدث <strong>إرشادات AHA للإنعاش القلبي الرئوي والرعاية القلبية الطارئة</strong>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============= CTA REPEAT ============= -->
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-grid">
+      <div class="eyebrow ltr-only">Get certified</div>
+      <div class="eyebrow rtl-only">احصل على الشهادة</div>
+      <h2 class="ltr-only">Train through an AHA-authorised pathway.</h2>
+      <h2 class="rtl-only">تدرّب عبر مسار معتمد من AHA.</h2>
+      <p class="ltr-only">Same primary CTA as the hero — country logic decides destination: ShopCPR where available, otherwise the alphabetical list of local Training Centres below.</p>
+      <p class="rtl-only">نفس زر الإجراء كما في الهيرو — منطق الدولة يقرر الوجهة: ShopCPR حيث متاح، أو قائمة المراكز المحلية الأبجدية أدناه.</p>
+      <div class="hero-cta">
+        <button class="btn lg ltr-only">Buy on ShopCPR <span class="arrow"></span></button>
+        <button class="btn dark-ghost lg ltr-only js-open-modal">Find a Training Centre</button>
+        <button class="btn lg rtl-only">اشترِ من ShopCPR <span class="arrow"></span></button>
+        <button class="btn dark-ghost lg rtl-only js-open-modal">ابحث عن مركز تدريب</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= FAQ ============= -->
+<section>
+  <div class="container">
+    <div class="section-head" style="text-align:center;margin:0 auto">
+      <div class="eyebrow ltr-only">Frequently asked</div>
+      <div class="eyebrow rtl-only">الأسئلة الشائعة</div>
+      <h2 class="ltr-only">Questions <span class="accent">before</span> you enrol.</h2>
+      <h2 class="rtl-only">أسئلة <span class="accent">قبل</span> التسجيل.</h2>
+    </div>
+
+    <div class="faq">
+      <div class="faq-item open">
+        <button class="faq-q">
+          <span class="ltr-only">How long does the blended course take?</span>
+          <span class="rtl-only">كم تستغرق الدورة المدمجة؟</span>
+          <span class="plus"></span>
+        </button>
+        <div class="faq-a">
+          <span class="ltr-only">Roughly 3 hours of online module plus a 1.5–2 hour in-person skills session at your chosen Training Centre. Schedule is set by the ITC.</span>
+          <span class="rtl-only">حوالي ٣ ساعات من الوحدة عبر الإنترنت بالإضافة إلى جلسة عملية مدتها ١.٥–٢ ساعة في مركز التدريب الذي تختاره.</span>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span class="ltr-only">How long is the certification valid?</span><span class="rtl-only">ما مدة صلاحية الشهادة؟</span><span class="plus"></span></button>
+        <div class="faq-a"><span class="ltr-only">Two years from the date of issue. Renewal is via a refresher course at an AHA-authorised Training Centre.</span><span class="rtl-only">سنتان من تاريخ الإصدار. التجديد عبر دورة تحديثية في مركز معتمد.</span></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span class="ltr-only">Do I need prior medical training?</span><span class="rtl-only">هل أحتاج إلى تدريب طبي مسبق؟</span><span class="plus"></span></button>
+        <div class="faq-a"><span class="ltr-only">No prior medical training is required for BLS. ACLS assumes BLS knowledge.</span><span class="rtl-only">لا حاجة لتدريب مسبق لدورة BLS. أما ACLS فتفترض معرفة BLS.</span></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span class="ltr-only">Is the AHA certification recognised in my country?</span><span class="rtl-only">هل شهادة AHA معترف بها في بلدي؟</span><span class="plus"></span></button>
+        <div class="faq-a"><span class="ltr-only">AHA credentials are accepted internationally. Local employer or regulator requirements may vary.</span><span class="rtl-only">شهادات AHA مقبولة دوليًا. قد تختلف متطلبات أصحاب العمل أو الجهات التنظيمية محليًا.</span></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span class="ltr-only">What happens if I fail the skills check?</span><span class="rtl-only">ماذا يحدث إذا لم أنجح في تقييم المهارات؟</span><span class="plus"></span></button>
+        <div class="faq-a"><span class="ltr-only">Your instructor will coach you through retry steps. Most ITCs allow a re-test within a set window.</span><span class="rtl-only">سيوجهك المدرب عبر خطوات الإعادة. معظم المراكز تسمح بإعادة الاختبار خلال فترة محددة.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= ITC LIST ============= -->
+<section class="pink-soft" id="itc">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow ltr-only">Find a Training Centre · India</div>
+      <div class="eyebrow rtl-only">ابحث عن مركز تدريب · المملكة العربية السعودية</div>
+      <h2 class="ltr-only">International Training Centres <span class="accent">near you.</span></h2>
+      <h2 class="rtl-only">مراكز التدريب الدولية <span class="accent">القريبة منك.</span></h2>
+      <p class="sub ltr-only" style="margin-top:14px">Alphabetical list. Name + city + outbound link only — no logos.</p>
+      <p class="sub rtl-only" style="margin-top:14px">قائمة أبجدية. الاسم + المدينة + الرابط فقط — بدون شعارات.</p>
+    </div>
+
+    <div class="itc-toolbar">
+      <div class="itc-search">
+        <svg class="icon"><use href="#i-search"/></svg>
+        <span class="ltr-only">Search by centre name or city…</span>
+        <span class="rtl-only">ابحث باسم المركز أو المدينة…</span>
+      </div>
+      <div class="itc-filter ltr-only">All States <span class="caret"></span></div>
+      <div class="itc-filter ltr-only">All Courses <span class="caret"></span></div>
+      <div class="itc-filter rtl-only">جميع المناطق <span class="caret"></span></div>
+      <div class="itc-filter rtl-only">جميع الدورات <span class="caret"></span></div>
+    </div>
+
+    <div class="alpha-jump">
+      <span class="active">A</span><span class="active">B</span><span class="active">C</span><span>D</span><span>E</span>
+      <span>F</span><span>G</span><span>H</span><span>I</span><span>J</span>
+      <span>K</span><span>L</span><span>M</span><span>N</span><span>O</span>
+      <span>P</span><span>Q</span><span>R</span><span>S</span><span>T</span>
+      <span>U</span><span>V</span><span>W</span><span>X</span><span>Y</span><span>Z</span>
+    </div>
+
+    <div class="ltr-only">
+      <div class="itc-group">
+        <h4>A</h4>
+        <div class="itc-list">
+          <div class="row"><span>Acuity Heart &amp; Lung Institute</span><span class="city">Bengaluru</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+          <div class="row"><span>Agra Cardiac Training Centre</span><span class="city">Agra</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+          <div class="row"><span>All India Institute of Medical Sciences</span><span class="city">New Delhi</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+          <div class="row"><span>Amrita Institute of Medical Sciences</span><span class="city">Kochi</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+          <div class="row"><span>Apollo Hospitals — Hyderabad</span><span class="city">Hyderabad</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+          <div class="row"><span>Apollo Hospitals — Chennai</span><span class="city">Chennai</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+          <div class="row"><span>Aravind Eye Care System</span><span class="city">Madurai</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+          <div class="row"><span>Asian Heart Institute</span><span class="city">Mumbai</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+        </div>
+      </div>
+      <div class="itc-group">
+        <h4>B</h4>
+        <div class="itc-list">
+          <div class="row"><span>Bangalore Medical College &amp; RI</span><span class="city">Bengaluru</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+          <div class="row"><span>Belle Vue Clinic</span><span class="city">Kolkata</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+          <div class="row"><span>Bharati Vidyapeeth Medical College</span><span class="city">Pune</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+          <div class="row"><span>BLK-Max Super Specialty</span><span class="city">New Delhi</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+          <div class="row"><span>Breach Candy Hospital</span><span class="city">Mumbai</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+          <div class="row"><span>BSES MG Hospital</span><span class="city">Mumbai</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+        </div>
+      </div>
+      <div class="itc-group">
+        <h4>C</h4>
+        <div class="itc-list">
+          <div class="row"><span>Care Hospitals Group</span><span class="city">Hyderabad</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+          <div class="row"><span>Christian Medical College</span><span class="city">Vellore</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+          <div class="row"><span>CMC Ludhiana</span><span class="city">Ludhiana</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+          <div class="row"><span>Continental Hospitals</span><span class="city">Hyderabad</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rtl-only">
+      <div class="itc-group">
+        <h4>A</h4>
+        <div class="itc-list">
+          <div class="row"><span>مستشفى الملك فيصل التخصصي</span><span class="city">الرياض</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+          <div class="row"><span>مستشفى الملك فهد</span><span class="city">جدة</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+          <div class="row"><span>جامعة الملك سعود</span><span class="city">الرياض</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+          <div class="row"><span>أكاديمية الإسعاف الوطنية</span><span class="city">الدمام</span><span class="ext"><svg class="icon"><use href="#i-arrow-up-right"/></svg></span></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="more ltr-only">··· list continues alphabetically ···</p>
+    <p class="more rtl-only">··· القائمة تستمر أبجديًا ···</p>
+  </div>
+</section>
+
+<!-- ============= FOOTER ============= -->
+<footer class="site">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="brand">
+          <img src="Group 10.png" alt="American Heart Association" class="logo-dark" />
+        </a>
+        <p class="ltr-only">Our mission is to be a relentless force for a world of longer, healthier lives. Course delivery is handled by AHA-authorised International Training Centres.</p>
+        <p class="rtl-only">مهمتنا هي أن نكون قوة مستمرة لعالم أطول وأكثر صحة. الدورات تُقدَّم عبر مراكز التدريب الدولية المعتمدة.</p>
+      </div>
+
+      <div class="footer-col">
+        <h5 class="ltr-only">Quick Links</h5><h5 class="rtl-only">روابط سريعة</h5>
+        <ul class="ltr-only">
+          <li><a href="#">What We Do</a></li>
+          <li><a href="#">Quality Improvement</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+        <ul class="rtl-only">
+          <li><a href="#">ما نقوم به</a></li>
+          <li><a href="#">تحسين الجودة</a></li>
+          <li><a href="#">من نحن</a></li>
+          <li><a href="#">اتصل بنا</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5 class="ltr-only">Training Centres</h5><h5 class="rtl-only">مراكز التدريب</h5>
+        <div class="regions-grid">
+          <div class="region">
+            <h6>MENA</h6>
+            <ul><li>UAE</li><li>KSA</li><li>Kuwait</li><li>Oman</li></ul>
+          </div>
+          <div class="region">
+            <h6>AMERICAS</h6>
+            <ul><li>Brazil</li><li>Argentina</li><li>Chile</li><li>Colombia</li></ul>
+          </div>
+          <div class="region">
+            <h6>ASIA</h6>
+            <ul><li>India</li><li>Philippines</li><li>Japan</li></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-cta">
+        <p class="ltr-only">Our colleagues all around the world are committed to healthcare quality. Join us.</p>
+        <p class="rtl-only">زملاؤنا حول العالم ملتزمون بجودة الرعاية الصحية. انضم إلينا.</p>
+        <button class="btn ltr-only">Commit to Quality Care <span class="arrow"></span></button>
+        <button class="btn rtl-only">التزم بجودة الرعاية <span class="arrow"></span></button>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="legal ltr-only">
+        <a href="#">Privacy (heart.org)</a>
+        <a href="#">Disclaimer</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Sitemap</a>
+      </div>
+      <div class="legal rtl-only">
+        <a href="#">الخصوصية (heart.org)</a>
+        <a href="#">إخلاء المسؤولية</a>
+        <a href="#">شروط الاستخدام</a>
+      </div>
+      <div class="socials">
+        <span class="s" aria-label="Facebook"><svg class="icon"><use href="#i-fb"/></svg></span>
+        <span class="s" aria-label="X / Twitter"><svg class="icon"><use href="#i-x"/></svg></span>
+        <span class="s" aria-label="LinkedIn"><svg class="icon"><use href="#i-li"/></svg></span>
+        <span class="s" aria-label="YouTube"><svg class="icon"><use href="#i-yt"/></svg></span>
+        <span class="s" aria-label="Email"><svg class="icon"><use href="#i-mail"/></svg></span>
+      </div>
+    </div>
+    <div class="copyright ltr-only">© 2026 American Heart Association, Inc. All rights reserved. Unauthorised use prohibited.</div>
+    <div class="copyright rtl-only">© ٢٠٢٦ جمعية القلب الأمريكية. جميع الحقوق محفوظة.</div>
+  </div>
+</footer>
+
+<!-- ============= LEAD MODAL ============= -->
+<div class="modal-overlay" id="leadModal" role="dialog" aria-modal="true" aria-labelledby="leadModalTitle">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" type="button" aria-label="Close">
+      <svg class="icon"><use href="#i-x"/></svg>
+    </button>
+
+    <!-- FORM VIEW -->
+    <div class="modal-view" id="modalForm">
+      <div class="eyebrow ltr-only">Find a Training Centre</div>
+      <div class="eyebrow rtl-only">ابحث عن مركز تدريب</div>
+      <h3 id="leadModalTitle">
+        <span class="ltr-only">Tell us where to look</span>
+        <span class="rtl-only">أخبرنا أين تبحث</span>
+      </h3>
+      <p class="modal-intro">
+        <span class="ltr-only">Share a few details and we'll connect you with AHA-authorised Training Centres near you.</span>
+        <span class="rtl-only">شارك بعض التفاصيل وسنوصلك بمراكز التدريب المعتمدة من AHA القريبة منك.</span>
+      </p>
+
+      <form id="leadForm" novalidate>
+        <div class="field">
+          <label for="leadName"><span class="ltr-only">Full name</span><span class="rtl-only">الاسم الكامل</span></label>
+          <input id="leadName" name="name" type="text" autocomplete="name" required />
+        </div>
+
+        <div class="field">
+          <label for="leadPhone"><span class="ltr-only">Phone number</span><span class="rtl-only">رقم الهاتف</span></label>
+          <input id="leadPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required />
+        </div>
+
+        <div class="field">
+          <label for="leadCountry"><span class="ltr-only">Country</span><span class="rtl-only">الدولة</span></label>
+          <select id="leadCountry" name="country" class="ltr-only" required>
+            <option value="" disabled selected>Select your country</option>
+            <option>United Arab Emirates</option>
+            <option>Saudi Arabia</option>
+            <option>Qatar</option>
+            <option>Kuwait</option>
+            <option>Oman</option>
+            <option>Bahrain</option>
+            <option>India</option>
+            <option>Philippines</option>
+            <option>Japan</option>
+            <option>Brazil</option>
+            <option>Argentina</option>
+            <option>Chile</option>
+            <option>Colombia</option>
+            <option>Germany</option>
+            <option>Italy</option>
+            <option>Spain</option>
+            <option>Portugal</option>
+          </select>
+          <select name="country_ar" class="rtl-only" required>
+            <option value="" disabled selected>اختر دولتك</option>
+            <option>الإمارات العربية المتحدة</option>
+            <option>المملكة العربية السعودية</option>
+            <option>قطر</option>
+            <option>الكويت</option>
+            <option>عُمان</option>
+            <option>البحرين</option>
+            <option>الهند</option>
+            <option>الفلبين</option>
+            <option>اليابان</option>
+            <option>البرازيل</option>
+            <option>الأرجنتين</option>
+            <option>تشيلي</option>
+            <option>كولومبيا</option>
+            <option>ألمانيا</option>
+            <option>إيطاليا</option>
+            <option>إسبانيا</option>
+            <option>البرتغال</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn lg">
+          <span class="ltr-only">Submit</span><span class="rtl-only">إرسال</span>
+          <span class="arrow"></span>
+        </button>
+      </form>
+    </div>
+
+    <!-- THANK-YOU VIEW -->
+    <div class="modal-view modal-thanks" id="modalThanks" hidden>
+      <div class="ty-ic"><svg class="icon"><use href="#i-shield-check"/></svg></div>
+      <h3>
+        <span class="ltr-only">Thank you!</span>
+        <span class="rtl-only">شكرًا لك!</span>
+      </h3>
+      <p>
+        <span class="ltr-only">We've received your details. Our team will be in touch shortly to help you find the right Training Centre near you.</span>
+        <span class="rtl-only">لقد استلمنا بياناتك. سيتواصل فريقنا معك قريبًا لمساعدتك في إيجاد مركز التدريب المناسب القريب منك.</span>
+      </p>
+      <button type="button" class="btn lg" id="goTrainingCentre">
+        <span class="ltr-only">Go to Training Center</span>
+        <span class="rtl-only">انتقل إلى مركز التدريب</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Language / direction toggle
+  const html = document.documentElement;
+  const toggle = document.getElementById('langToggle');
+  const optEn  = toggle.querySelector('[data-en]');
+  const optAr  = toggle.querySelector('[data-ar]');
+
+  toggle.addEventListener('click', () => {
+    const isRTL = html.getAttribute('dir') === 'rtl';
+    if (isRTL) {
+      html.setAttribute('dir', 'ltr');
+      html.setAttribute('lang', 'en');
+      optEn.classList.add('active'); optAr.classList.remove('active');
+    } else {
+      html.setAttribute('dir', 'rtl');
+      html.setAttribute('lang', 'ar');
+      optAr.classList.add('active'); optEn.classList.remove('active');
+    }
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item .faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+
+  // Lead-capture modal
+  const leadModal     = document.getElementById('leadModal');
+  const modalFormView = document.getElementById('modalForm');
+  const modalThanks   = document.getElementById('modalThanks');
+  const leadForm      = document.getElementById('leadForm');
+
+  function openLeadModal() {
+    modalThanks.hidden   = true;
+    modalFormView.hidden = false;
+    leadModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    const first = leadForm.querySelector('input');
+    setTimeout(() => first && first.focus(), 60);
+  }
+  function closeLeadModal() {
+    leadModal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.js-open-modal').forEach(b => b.addEventListener('click', openLeadModal));
+  document.getElementById('modalClose').addEventListener('click', closeLeadModal);
+  document.getElementById('goTrainingCentre').addEventListener('click', closeLeadModal);
+  leadModal.addEventListener('click', e => { if (e.target === leadModal) closeLeadModal(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && leadModal.classList.contains('open')) closeLeadModal();
+  });
+
+  // Clear the invalid state as the user corrects a field
+  leadForm.querySelectorAll('input, select').forEach(f =>
+    f.addEventListener('input', () => f.classList.remove('invalid'))
+  );
+
+  leadForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const isRTL   = html.getAttribute('dir') === 'rtl';
+    const country = leadForm.querySelector(isRTL ? 'select.rtl-only' : 'select.ltr-only');
+    const fields  = [document.getElementById('leadName'), document.getElementById('leadPhone'), country];
+    let ok = true;
+    fields.forEach(f => {
+      if (!f.value.trim()) { f.classList.add('invalid'); ok = false; }
+      else f.classList.remove('invalid');
+    });
+    if (!ok) { const bad = fields.find(f => f.classList.contains('invalid')); bad && bad.focus(); return; }
+    modalFormView.hidden = true;
+    modalThanks.hidden   = false;
+  });
+
+</script>
+
+</body>
+</html>

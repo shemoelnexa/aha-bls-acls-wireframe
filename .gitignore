@@ -1,0 +1,17 @@
+# Claude Code / agent tooling
+.claude/
+.agents/
+skills-lock.json
+
+# Internal brief & reference material (kept out of the public repo)
+*.docx
+breif-1.txt
+wireframe.pdf
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
