@@ -1193,6 +1193,11 @@
         </div>
 
         <div class="field">
+          <label for="leadEmail"><span class="ltr-only">Email address</span><span class="rtl-only">البريد الإلكتروني</span></label>
+          <input id="leadEmail" name="email" type="email" inputmode="email" autocomplete="email" required />
+        </div>
+
+        <div class="field">
           <label for="leadPhone"><span class="ltr-only">Phone number</span><span class="rtl-only">رقم الهاتف</span></label>
           <input id="leadPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required />
         </div>
@@ -1333,12 +1338,17 @@
     e.preventDefault();
     const isRTL   = html.getAttribute('dir') === 'rtl';
     const country = leadForm.querySelector(isRTL ? 'select.rtl-only' : 'select.ltr-only');
-    const fields  = [document.getElementById('leadName'), document.getElementById('leadPhone'), country];
+    const email   = document.getElementById('leadEmail');
+    const fields  = [document.getElementById('leadName'), email, document.getElementById('leadPhone'), country];
     let ok = true;
     fields.forEach(f => {
       if (!f.value.trim()) { f.classList.add('invalid'); ok = false; }
       else f.classList.remove('invalid');
     });
+    // Basic email format check (only when a value is present)
+    if (email.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+      email.classList.add('invalid'); ok = false;
+    }
     if (!ok) { const bad = fields.find(f => f.classList.contains('invalid')); bad && bad.focus(); return; }
     modalFormView.hidden = true;
     modalThanks.hidden   = false;
